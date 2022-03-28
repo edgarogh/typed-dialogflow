@@ -36,7 +36,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install grcov
-      run: wget $GRCOV && sudo tar -xf grcov*.tar.bz2 --directory /bin/
+      run: |
+        wget $GRCOV
+        tar -xf grcov*.tar.bz2 --directory /bin/
     - name: Run tests
       run: |
         cargo build --verbose
