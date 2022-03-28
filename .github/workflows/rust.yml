@@ -27,7 +27,7 @@ jobs:
     env:
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       PROJECT_NAME: "typed_dialogflow"
-      RUSTFLAGS: "-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-chec  ks=off -Zno-landing-pads"
+      RUSTFLAGS: "-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-chec  ks=off"
       CARGO_INCREMENTAL: 0
     steps:
     - uses: actions/checkout@v2
