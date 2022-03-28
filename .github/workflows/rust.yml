@@ -24,9 +24,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    container:
-      image: xd009642/tarpaulin:0.20.0
-      options: --security-opt seccomp=unconfined
     env:
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       PROJECT_NAME: "typed_dialogflow"
@@ -34,6 +31,11 @@ jobs:
       CARGO_INCREMENTAL: 0
     steps:
     - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: nightly
+        override: true
     - name: Run tests
       run: |
         cargo build --verbose
