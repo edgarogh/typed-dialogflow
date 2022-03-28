@@ -23,24 +23,12 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    container: xd009642/tarpaulin:0.20.0
     env:
-      CARGO_INCREMENTAL: "0"
-      RUSTFLAGS: "-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off -Zpanic_abort_tests -Cpanic=abort"
+      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
     steps:
     - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
       with:
-        toolchain: nightly
-        override: true
+        fetch-depth: 0
     - name: Run tests
-      run: cargo test --verbose
-    - name: Install grcov
-      run: wget "https://github.com/mozilla/grcov/releases/download/v0.8.0/grcov-linux-x86_64.tar.bz2" && sudo tar -xf grcov*.tar.bz2 --directory /bin/
-    - uses: actions-rs/grcov@v0.1
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        flag-name: "Unit"
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: /home/runner/work/typed-dialogflow/typed-dialogflow/lcov.info
-
+      run: cargo tarpaulin --verbose --ciserver github-ci --coveralls $COVERALLS_REPO_TOKEN
