@@ -1,0 +1,43 @@
+name: Rust
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    container: rust:1.59
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: cargo build --verbose
+    - name: Build release
+      run: cargo build --release --verbose
+
+  test:
+    runs-on: ubuntu-latest
+    container: rust:1.59
+    env:
+      CARGO_INCREMENTAL: "0"
+      RUSTFLAGS: "-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off -Zpanic_abort_tests -Cpanic=abort"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests
+      run: cargo test --verbose
+    - name: Install grcov
+      run: wget "https://github.com/mozilla/grcov/releases/download/v0.8.0/grcov-linux-x86_64.tar.bz2" && sudo tar -xf grcov*.tar.bz2 --directory /bin/
+    - uses: actions-rs/grcov@v0.1
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        flag-name: "Unit"
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: /home/runner/work/typed-dialogflow/typed-dialogflow/lcov.info
+
