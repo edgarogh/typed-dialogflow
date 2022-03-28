@@ -44,7 +44,7 @@ jobs:
         cargo build --verbose
         cargo test --verbose
         grcov . -s . --binary-path ./target/debug/ -t lcov --branch --ignore-not-existing -o ./target/debug/lcov.info
-        ls ./target/debug/
+        cat ./target/debug/lcov.info
     - name: Upload coverage
       uses: coverallsapp/github-action@1.1.3
       with:
