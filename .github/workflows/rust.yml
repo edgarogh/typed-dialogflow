@@ -24,27 +24,25 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    container: rust:1.59
     env:
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       PROJECT_NAME: "typed_dialogflow"
-      RUSTFLAGS: "-Zinstrument-coverage"
+      RUSTC_BOOTSTRAP: 1 # fake nightly
       CARGO_INCREMENTAL: 0
+      RUSTFLAGS: "-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off -Zpanic_abort_tests -Cpanic=abort"
+      RUSTDOCFLAGS: "-Cpanic=abort"
     steps:
     - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: nightly-2022-02-06
-        override: true
     - name: Run tests
       run: |
         cargo build --verbose
         cargo test --verbose
-        zip -0 cov.zip $(find . -name "$PROJECT_NAME*.gc*" -print)
-        grcov cov.zip -s . -t lcov --llvm --ignore-not-existing --ignore "/*" -o lcov.info
+        grcov . -s . --binary-path ./target/debug/ -t lcov --branch --ignore-not-existing -o ./target/debug/coverage/
+        ls ./target/debug/coverage/
     - name: Upload coverage
       uses: coverallsapp/github-action@1.1.3
       with:
         flag-name: "Unit"
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: "lcov.info"
+        path-to-lcov: "./target/debug/coverage/*lcov*"
