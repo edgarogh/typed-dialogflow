@@ -39,6 +39,8 @@ jobs:
       run: |
         wget $GRCOV
         tar -xf grcov*.tar.bz2 --directory /bin/
+    - name: Create Cargo.lock
+      run: cargo generate-lockfile
     - name: Run tests
       uses: actions-rs/grcov@v0.1
     - name: Upload coverage
