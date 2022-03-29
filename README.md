@@ -2,6 +2,9 @@
 
 An easy-to-use typed [Google Dialogflow](https://dialogflow.cloud.google.com/) client for Rust
 
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/edgarogh/typed-dialogflow/Rust)
+[![Coverage Status](https://coveralls.io/repos/github/edgarogh/typed-dialogflow/badge.svg?branch=main)](https://coveralls.io/github/edgarogh/typed-dialogflow?branch=main)
+
 _This library was extracted from [a personal project](https://github.com/WartaPoirier-corp/vakanssbot). As a result, it may still be very basic and quite rigid. However, I'm all for this library growing and becoming more capable._
 
 ## Example
