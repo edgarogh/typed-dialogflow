@@ -1,5 +1,9 @@
 # typed-dialogflow
 
+![Crates.io shield](https://img.shields.io/crates/l/typed-dialogflow)
+[![Crates.io shield](https://img.shields.io/crates/v/typed-dialogflow)](https://crates.io/crates/typed-dialogflow)
+[![docs.rs shield](https://img.shields.io/docsrs/typed-dialogflow)](https://docs.rs/typed-dialogflow)
+
 An easy-to-use typed [Google Dialogflow](https://dialogflow.cloud.google.com/) client for Rust
 
 _This library was extracted from [a personal project](https://github.com/WartaPoirier-corp/vakanssbot). As a result, it may still be very basic and quite rigid. However, I'm all for this library growing and becoming more capable._
@@ -36,7 +40,3 @@ match intent {
 ## Testing
 
 Due to the private / proprietary / externally-hosted nature of Dialogflow, testing this library isn't as easy as any other library. In addition to that, because Dialogflow relies on AI, there's always a small probability that a text may be interpreted differently if the model is re-trained, making tests undeterministic. I could eventually try to make the Google Backend mockable to test the deserialization part of the library. Besides that, I'm running tests locally on a private Dialogflow model, but having tests run on only one computer makes it impossible to enforce rules about having the code pass tests before being commited.
-
-## License
-
-`MIT OR APACHE-2.0`
